@@ -1,0 +1,33 @@
+.product {
+  padding: 30px;
+  margin: 30px;
+  display: flex;
+  justify-content: space-between;
+  flex: 0.6 0.4;
+  border: 1px solid lightgray;
+}
+
+.product__info {
+  display: flex;
+  flex-direction: column;
+  flex: 0.6;
+}
+.product__variants {
+  display: flex;
+  margin-top: 70px;
+  justify-content: space-between;
+}
+
+.product__radio {
+  margin-bottom: 20px;
+}
+
+.product__selected {
+  margin-top: 10px;
+}
+
+.product__image {
+  width: 100%;
+  object-fit: contain;
+  max-width: 300px;
+}

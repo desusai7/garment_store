@@ -1,0 +1,26 @@
+.home_heading {
+  margin: 50px;
+}
+
+.home__body {
+  max-width: 95vw;
+  box-shadow: -1px -1px 10px -4px rgba(0, 0, 0, 0.9);
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: inline;
+  margin: auto;
+  margin-top: 15px;
+  height: 100;
+  margin-bottom: 60px;
+}
+
+.home__bodyProductContainer {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.home__bodyCartContainer {
+  margin: 30px;
+}

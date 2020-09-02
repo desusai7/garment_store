@@ -1,0 +1,33 @@
+.header{
+  position : sticky;
+  top :0;
+  z-index:1;
+  background-color: white;
+  padding:20px;
+  border-bottom : 1px solid lightgray;
+  display:flex;
+  justify-content: space-between;
+  align-items:center;
+}
+
+.header__brand
+{
+  cursor: pointer;
+}
+
+.header__logincontainer
+{
+display:flex;
+justify-content: space-between;
+}
+.header__logincontainer > button
+{
+  background-color: transparent;
+  color:black;
+  font-size :18px;
+  padding: 14px 20px;
+  margin: 8px ;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}

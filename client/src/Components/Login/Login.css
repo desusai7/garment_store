@@ -1,0 +1,36 @@
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.login__heading {
+  margin-bottom: 50px;
+}
+
+.button {
+  background-color: #4caf50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.login__body {
+  max-width: 30vw;
+  box-shadow: -1px -1px 10px -4px rgba(0, 0, 0, 0.9);
+  border-radius: 5px;
+  margin: auto;
+  margin-top: 50px;
+  padding: 50px;
+}
+
+.button:hover {
+  opacity: 0.8;
+}
