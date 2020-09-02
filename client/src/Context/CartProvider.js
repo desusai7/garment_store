@@ -30,7 +30,7 @@ export function CartProvider({ children }) {
     setCart(cart);
   };
 
-  const addToCart = (itemToAdd, selectedColor, selectedSize) => {
+  function addToCart (itemToAdd, selectedColor, selectedSize)  {
     const itemIndex = cart.findIndex(
       (item) => item.product_id === itemToAdd.id
     );
@@ -53,7 +53,7 @@ export function CartProvider({ children }) {
   };
 
   
-  const removeFromCart = (itemToRemove) => {
+  function removeFromCart (itemToRemove)  {
     const itemIndex = cart.findIndex(
       (item) => item.product_id === itemToRemove.id
     );
@@ -69,9 +69,11 @@ export function CartProvider({ children }) {
   return (
     <CartContext.Provider value={cart}>
       <CartUpdateContext.Provider value={updateCart}>
-        <CartAddItem value={addToCart}>
-          <CartRemoveItem value={removeFromCart}>{children}</CartRemoveItem>
-        </CartAddItem>
+        <CartAddItem.Provider value={addToCart}>
+          <CartRemoveItem.Provider value={removeFromCart}>
+            {children}
+            </CartRemoveItem.Provider>
+        </CartAddItem.Provider>
       </CartUpdateContext.Provider>
     </CartContext.Provider>
   );

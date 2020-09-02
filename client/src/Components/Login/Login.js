@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react";
 import "./Login.css";
 import { Link, useHistory, Redirect } from "react-router-dom";
 import Axios from "axios";
+import { useUser,useUserUpdate } from "E:/Weekend Projects/garment-store/client/src/Context/UserProvider";
 function Login() {
   const history = useHistory();
-  const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const updateUser = useUserUpdate();
+  const user = useUser();
+
   const login = async (e) => {
     e.preventDefault();
     Axios({
@@ -19,7 +23,8 @@ function Login() {
       url: "http://localhost:5000/login",
       withCredentials: true,
     }).then((res) => {
-      if (res.data.message === "Successfully Authenticated") {
+      if (res.data.user_id != null && res.data.email != null) {
+        updateUser(res.data);
         alert("Login Successful ! Taking you to Home Page");
         history.push("/home");
       } else {
@@ -27,13 +32,15 @@ function Login() {
       }
     });
   };
+
   const getUser = async () => {
     Axios({
       method: "GET",
       url: "http://localhost:5000/user",
       withCredentials: true,
     }).then((res) => {
-      setUser(res.data);
+      updateUser(res.data);
+      console.log(user);
     });
   };
 
@@ -41,9 +48,10 @@ function Login() {
     getUser();
   }, []);
 
+  
   return (
     <div className="login">
-      {user?.username && <Redirect to="/"></Redirect>}
+      {user?.username && <Redirect to="/home"></Redirect>}
 
       <div className="login__errors">
         <ul>{error && <li>{error.message}</li>}</ul>
@@ -77,7 +85,9 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button className="button" type="submit">Login</button>
+          <button className="button" type="submit">
+            Login
+          </button>
           Not Registered ? <Link to="/register"> Register Here</Link>
         </form>
       </div>

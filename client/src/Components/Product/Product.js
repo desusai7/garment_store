@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Product.css";
 import { Button } from "@material-ui/core";
-function Products({ product, addToCart, removeFromCart ,selectedSize, selectedColor, setSelectedSize, setSelectedColor}) {
+import {useCartAddItem , useCartRemoveItem} from "E:/Weekend Projects/garment-store/client/src/Context/CartProvider";
+function Products({ product,selectedSize, selectedColor, setSelectedSize, setSelectedColor}) {
+
+  const addToCart = useCartAddItem();
+  const removeFromCart = useCartRemoveItem();
+  
   return (
     <div className="product">
       <div className="product__info">

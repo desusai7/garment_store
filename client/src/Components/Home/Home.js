@@ -3,47 +3,18 @@ import Product from "../Product/Product";
 import Cart from "../Cart/Cart";
 import "./Home.css";
 import Axios from "axios";
+import {useCart , useCartUpdate} from "E:/Weekend Projects/garment-store/client/src/Context/CartProvider";
+import {useUser , useUserUpdate} from "E:/Weekend Projects/garment-store/client/src/Context/UserProvider";
 
 function Home() {
   const [products, setProducts] = useState([]);
-  const [user,setUser]= useState(null);
-  const [cart, setCart] = useState([]);
+  const user = useUser();
+  const updateUser = useUserUpdate();
+  const cart = useCart();
+  const updateCart = useCartUpdate(); 
   const [selectedSize, setSelectedSize] = useState("S");
   const [selectedColor, setSelectedColor] = useState("red");
-  const addToCart = (itemToAdd) => {
-    const itemIndex = cart.findIndex(
-      (item) => item.product_id === itemToAdd.id
-    );
-    if (itemIndex === -1) {
-      const newItem ={} ;
-      newItem.product_id = itemToAdd.id;
-      newItem.name= itemToAdd.name;
-      newItem.price = itemToAdd.price;
-      newItem.quantity = 1;
-      newItem.color = selectedColor;
-      newItem.size = selectedSize;
-      setCart([...cart, newItem]);
-    } else {
-      const updatedCart = [...cart];
-      const item = updatedCart[itemIndex];
-      item.quantity = item.quantity + 1;
-      updatedCart[itemIndex] = item;
-      setCart([...updatedCart]);
-      console.log(cart);
-    }
-  };
-  const removeFromCart = (itemToRemove) => {
-    const itemIndex = cart.findIndex(
-      (item) => item.product_id === itemToRemove.id
-    );
-    if (cart[itemIndex].quantity > 0) {
-      const updatedCart = [...cart];
-      const item = updatedCart[itemIndex];
-      item.quantity = item.quantity - 1;
-      updatedCart[itemIndex] = item;
-      setCart([...updatedCart]);
-    }
-  };
+  
 
   const getProducts = async () => {
     try {
@@ -66,7 +37,8 @@ function Home() {
       url: "http://localhost:5000/user",
       withCredentials: true,
     }).then((res) => {
-      setUser(res.data);
+      updateUser(res.data);
+      console.log(user);
     });
   };
 
@@ -75,21 +47,19 @@ function Home() {
   }, []);
   
   const getCart = async () => {
-    console.log(user);
     if(user!==null && user!=="")
     {
     Axios({
       method: "GET",
-      url: `http://localhost:5000/cartItems/${user.userid}`,
+      url: `http://localhost:5000/cartItems/${user.user_id}`,
       withCredentials: true,
     }).then((res) => {
-      setCart(res.data);
-      console.log(res.data);
+      updateCart(res.data);
     });
   }
   else
   {
-   setCart([]);
+   updateCart([]);
   }
   };
   
@@ -110,8 +80,6 @@ function Home() {
             <Product
               key={product.id}
               product={product}
-              addToCart={addToCart}
-              removeFromCart={removeFromCart}
               selectedSize = {selectedSize}
               selectedColor = {selectedColor}
               setSelectedSize ={setSelectedSize}

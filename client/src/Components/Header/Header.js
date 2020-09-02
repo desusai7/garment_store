@@ -1,11 +1,12 @@
-import React , {useState,useEffect} from "react";
-import { useHistory,Link } from "react-router-dom";
+import React  from "react";
+import { useHistory } from "react-router-dom";
 import Axios from "axios";
 import "./Header.css";
+import {useUser,useUserUpdate } from "E:/Weekend Projects/garment-store/client/src/Context/UserProvider";
 function Header() {
-  const [user, setUser] = useState(null);
   const history = useHistory();
-  
+  const user = useUser();
+  const updateUser = useUserUpdate();
   const logout = async() =>
   {
     Axios({
@@ -14,23 +15,10 @@ function Header() {
       withCredentials: true,
     }).then((res) => {
       alert(res.data.message);
+      updateUser(null);
     });
-    window.location="/home";
   }
 
-  const getUser = async () => {
-    Axios({
-      method: "GET",
-      url: "http://localhost:5000/user",
-      withCredentials: true,
-    }).then((res) => {
-      setUser(res.data);
-    });
-  };
-
-  useEffect(() => {
-    getUser();
-  }, []);
 
   
   return (

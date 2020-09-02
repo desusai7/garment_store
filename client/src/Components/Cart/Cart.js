@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Cart.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -10,9 +10,10 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { Button } from "@material-ui/core";
 import Axios from "axios";
-import ReactGA, { set } from "react-ga";
+import ReactGA from "react-ga";
 import Modal from 'react-bootstrap/Modal';
 import ButtonBS from 'react-bootstrap/Button';
+import {useUser} from "E:/Weekend Projects/garment-store/client/src/Context/UserProvider";
 const useStyles = makeStyles({
   table: {
     minWidth: 500,
@@ -24,7 +25,7 @@ const useStyles = makeStyles({
 function Cart({ cart }) {
   const classes = useStyles();
 
-  const [user, setUser] = useState(null);
+  const user = useUser();
   const [show, setShow] = useState(false);
   const [modalContent,setModalContent] = useState('');
   const handleClose = () => setShow(false);
@@ -69,19 +70,6 @@ function Cart({ cart }) {
     
   };
 
-  const getUser = async () => {
-    Axios({
-      method: "GET",
-      url: "http://localhost:5000/user",
-      withCredentials: true,
-    }).then((res) => {
-      setUser(res.data);
-    });
-  };
-
-  useEffect(() => {
-    getUser();
-  }, []);
 
   return (
     <div className="cart">

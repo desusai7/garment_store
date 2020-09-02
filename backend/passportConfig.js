@@ -56,7 +56,7 @@ function initialize(passport) {
   passport.deserializeUser((id, done) => {
     pool.query(`SELECT * FROM users WHERE user_id = $1`, [id], (err, results) => {
         const userInformation = {
-            userid: results.rows[0].user_id,
+            user_id: results.rows[0].user_id,
             username : results.rows[0].username,
           };
           done(err, userInformation);

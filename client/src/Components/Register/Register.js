@@ -2,14 +2,18 @@ import React, { useState, useEffect } from "react";
 import "./Register.css";
 import { useHistory, Link ,Redirect} from "react-router-dom";
 import Axios from "axios";
+import { useUser,useUserUpdate } from "E:/Weekend Projects/garment-store/client/src/Context/UserProvider";
 function Register() {
   const history = useHistory();
-  const [user, setUser] = useState(null);
   const [errors, setErrors] = useState(null);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
+ 
+  const user = useUser();
+  const updateUser = useUserUpdate();
+  
   const signup = async (e) => {
     e.preventDefault();
     Axios({
@@ -37,7 +41,7 @@ function Register() {
       url: "http://localhost:5000/user",
       withCredentials: true,
     }).then((res) => {
-      setUser(res.data);
+      updateUser(res.data);
     });
   };
 
@@ -47,7 +51,7 @@ function Register() {
 
   return (
     <div className="register">
-      {user?.username && <Redirect to="/"></Redirect>}
+      {user?.username && <Redirect to="/home"></Redirect>}
       <div className="register__errors">
         <ul>
           {errors?.map((error, index) => (
