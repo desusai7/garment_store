@@ -12,7 +12,8 @@ function Login() {
 
   const updateUser = useUserUpdate();
   const user = useUser();
-
+  
+  // Function for logging in user
   const login = async (loginType,event) => {
     event.preventDefault()
     Axios({
@@ -33,6 +34,7 @@ function Login() {
     });
   };
 
+  // Retrieving Current Loggedin user
   const getUser = async () => {
     Axios({
       method: "GET",
@@ -50,7 +52,8 @@ function Login() {
   return (
     <div className="login">
       {user?.username && <Redirect to="/home"></Redirect>}
-
+       
+      {/* Displaying errors occured while logging in  */}
       <div className="login__errors">
       {error && 
         <Alert variant="danger">

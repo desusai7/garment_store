@@ -32,6 +32,7 @@ function Cart() {
   const [show, setShow] = useState(false);
   const [modalContent,setModalContent] = useState('');
   
+  //calculating Invoice Total
   const invoiceTotal = cart.reduce(function (acc, curr) {
     return acc + curr.quantity * curr.price;
   }, 0);
@@ -42,6 +43,7 @@ function Cart() {
     getCart();
   }
 
+  // getting cart state of a loggedinuser 
   const getCart = async () => {
     if(user!==null && user!=="")
     {
@@ -96,6 +98,7 @@ function Cart() {
       }).then((res) => {
         if(res.data.Status==="Submitted")
         {
+          //sending Cart Submission event to Google Analytics
         ReactGA.set({ userId: user.user_id });
         ReactGA.event({
           category: "Garment",
@@ -182,6 +185,7 @@ function Cart() {
         </Table>
       </TableContainer>
       </div>
+      {/* Displaying Cart Submission Status */}
       <div className="cart__modal">
       <Modal show={show} onHide={handleClose} animation={true} aria-labelledby="contained-modal-title-vcenter" centered>
         <Modal.Header closeButton>

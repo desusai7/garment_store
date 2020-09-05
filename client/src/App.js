@@ -11,6 +11,7 @@ import {UserProvider}  from "./Components/UserProvider";
 
 function App() {
   
+  //sending pageview to Google Analytics
   useEffect(() => {
     ReactGA.initialize(process.env.REACT_APP_TRACKING_ID);
     ReactGA.pageview(window.location.pathname);

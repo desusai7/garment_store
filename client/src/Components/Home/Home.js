@@ -10,7 +10,7 @@ function Home() {
   
   const updateUser = useUserUpdate();
  
-
+  // Retrieving all the products in the store
   const getProducts = async () => {
     try {
       const response = await fetch("http://localhost:5000/products");
@@ -25,6 +25,7 @@ function Home() {
     getProducts();
   }, []);
 
+  // Retrieving Currentuser Details
   const getUser = async () => {
     Axios({
       method: "GET",

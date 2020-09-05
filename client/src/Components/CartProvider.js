@@ -37,6 +37,7 @@ export function CartProvider({ children }) {
     setShow(false);
   }
 
+  // Adding an item into the cart
   function addToCart (itemToAdd, selectedColour, selectedSize)  {
     const itemIndex = cart.findIndex(
       (item) => item.product_id === itemToAdd.id && item.colour===selectedColour && item.size===selectedSize
@@ -59,7 +60,7 @@ export function CartProvider({ children }) {
     }
   };
 
-  
+  // Removing an item from Cart
   function removeFromCart (itemToRemove,selectedColour,selectedSize)  {
     const itemIndex = cart.findIndex(
       (item) => item.product_id === itemToRemove.id && item.colour===selectedColour && item.size===selectedSize
@@ -75,6 +76,7 @@ export function CartProvider({ children }) {
       setCart([...updatedCart]);
     }
   }
+  // Alerting if an item is not present in the cart
   else{
     setModalContent("There is no "+itemToRemove.name+" in your Cart with Size: "+selectedSize+" and Colour: "+selectedColour);
     setShow(true);

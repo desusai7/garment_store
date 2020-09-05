@@ -5,6 +5,7 @@ const pool = require("./db");
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
 
+// Defining Local Strategy
 const authenticateUser = (email, password, done) => {
   pool.query(
     `SELECT * FROM users WHERE email = $1`,
@@ -43,6 +44,8 @@ passport.use(
   )
 );
 
+
+// Defining Google Strategy
 passport.use(
   new GoogleStrategy(
     {
@@ -54,6 +57,9 @@ passport.use(
 
       const { _json } = profile;
       const { sub, name, email } = _json;
+      // Checking if the user is already present in our database
+      // If present retrieve that user details 
+      // else create new user
       pool.query(`SELECT * FROM users WHERE email = $1`,[email],async(err, results) => {
           if (err) {
             throw err;
@@ -79,10 +85,12 @@ passport.use(
       }
 ));
 
+// Serializing user i.e storing his id
 passport.serializeUser((user, done) => {
   done(null, user.user_id);
 });
 
+// deserializing user i.e getting his all details using his id stored while serializing
 passport.deserializeUser((id, done) => {
   pool.query(`SELECT * FROM users WHERE user_id = $1`, [id], (err, results) => {
       const userInformation = {

@@ -8,6 +8,7 @@ function Header() {
   const user = useUser();
   const updateUser = useUserUpdate();
   
+  // Logging out a user
   const logout = async() =>
   {
     Axios({

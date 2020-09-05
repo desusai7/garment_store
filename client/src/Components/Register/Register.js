@@ -16,6 +16,8 @@ function Register() {
   const user = useUser();
   const updateUser = useUserUpdate();
   
+  
+  // Registering the user
   const signup = async (e) => {
     e.preventDefault();
     Axios({
@@ -36,7 +38,8 @@ function Register() {
       }
     });
   };
-
+ 
+  // Retrieving Currentuser Details
   const getUser = async () => {
     Axios({
       method: "GET",
@@ -55,6 +58,7 @@ function Register() {
     <div className="register">
       {user?.username && <Redirect to="/home"></Redirect>}
       
+      {/* Displaying errors occured while registering */}
       <div className="register__errors">
       {errors && 
         <Alert variant="danger">
