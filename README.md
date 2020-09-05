@@ -34,7 +34,7 @@ below.
 
 ### Postgresql
 
-[Postgresql](https://www.postgresql.org/download/) You can simply choose your choice of your operating system and then
+Go to [Postgresql](https://www.postgresql.org/download/) and here simply choose your choice of your operating system and then
 follow the installation guide . After installation refer to Database Schema part in the Setup Section.
 
 ### Google Analytics
@@ -49,7 +49,7 @@ In order to use Social Login in your application using Google you need to have O
 
 
 
-## Installation 
+## Setup
 
     $ git clone https://github.com/desusai7/garment_store.git
     $ cd garment_store
@@ -65,11 +65,11 @@ and after following all the above steps you need to do just few more things in o
     
 2. Go to [backend/.env](/backend/.env) and update the variables with your own Database credentials and Google Credentials you got from Google Oauth2.0 platform
 
-3. ### Database Setup
+3. Database Schema
 
 ### create tables in your database with the following structure : 
 
-![alt Database Schema](https://rb.gy/q0dzxm)
+![alt Database Schema](https://drive.google.com/file/d/16I-Z4TS7P6kblTmBdJp7NmvgRdeR-Nr5/view)
 
 
 
@@ -81,8 +81,9 @@ and after following all the above steps you need to do just few more things in o
     $ cd backend
     $ npm run dev
 
-and then you can hop over to [here](http:localhost:3000/home) to view the application
+and then you can hop over **http:localhost:3000/home** to view the application
 
 
+## Licensing Details
 
 License under the [MIT License](LICENSE).
