@@ -2,10 +2,12 @@
 
 ### Garment Store is built On PERN Stack :
 
-React.js - FrontEnd,
+
+Postgresql - Database,
 Express - BackEnd Framework,
-Node.js - JS Runtime Environment,
-Postgresql - Database.
+React.js - FrontEnd,
+Node.js - JS Runtime Environment.
+
 
 ### Features of Garment Store include : 
 
@@ -40,7 +42,7 @@ follow the installation guide . After installation refer to Database Schema part
 ### Google Analytics
 
 In order to link your applicaation to Google Analytics you need a Unique Tracking Id and here's a clear description of how to obtain
-that [GoogleAnalytics](https://support.google.com/analytics/answer/1008080?hl=en)
+that [Google Analytics](https://support.google.com/analytics/answer/1008080?hl=en)
 
 
 ### Google Oauth Platform
@@ -67,9 +69,9 @@ and after following all the above steps you need to do just few more things in o
 
 3. Database Schema
 
-### create tables in your database with the following structure : 
+  ### create tables in your database with the following structure : 
 
-![alt Database Schema](https://drive.google.com/file/d/16I-Z4TS7P6kblTmBdJp7NmvgRdeR-Nr5/view)
+![Database Schema](https://drive.google.com/file/d/16I-Z4TS7P6kblTmBdJp7NmvgRdeR-Nr5/view)
 
 
 
