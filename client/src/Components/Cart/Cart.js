@@ -63,6 +63,7 @@ function Cart() {
     getCart();
   }, [user]);
 
+  //checking if cart is empty
   const isCartEmpty = async() =>
   {
     console.log(invoiceTotal);
@@ -78,6 +79,7 @@ function Cart() {
     isCartEmpty();
   },[invoiceTotal]);
 
+  //function to submit cart
   const submitCart = async () => {
     if(user==="" || user===undefined || user===null)
     {
@@ -180,7 +182,6 @@ function Cart() {
         </Table>
       </TableContainer>
       </div>
-
       <div className="cart__modal">
       <Modal show={show} onHide={handleClose} animation={true} aria-labelledby="contained-modal-title-vcenter" centered>
         <Modal.Header closeButton>
