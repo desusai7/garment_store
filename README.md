@@ -71,7 +71,7 @@ and after following all the above steps you need to do just few more things in o
 
   ### create tables in your database with the following structure : 
 
-![Database Schema](https://drive.google.com/file/d/16I-Z4TS7P6kblTmBdJp7NmvgRdeR-Nr5/view)
+![Database Schema](/Database Schema.png)
 
 
 
