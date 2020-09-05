@@ -1,4 +1,4 @@
-# Garment_store
+# Garment store
 
 ### Garment Store is built On PERN Stack :
 
