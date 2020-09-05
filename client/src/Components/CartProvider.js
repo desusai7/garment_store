@@ -43,12 +43,14 @@ export function CartProvider({ children }) {
       newItem.color = selectedColor;
       newItem.size = selectedSize;
       setCart([...cart, newItem]);
+      console.log(cart);
     } else {
       const updatedCart = [...cart];
       const item = updatedCart[itemIndex];
       item.quantity = item.quantity + 1;
       updatedCart[itemIndex] = item;
       setCart([...updatedCart]);
+      console.log(cart);
     }
   };
 

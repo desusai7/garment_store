@@ -1,49 +1,40 @@
+//imports
 const express = require("express");
 const cors = require("cors");
 const pool = require("./db");
 const app = express();
 const PORT = process.env.PORT || 5000;
 const bcrypt = require("bcryptjs");
-const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const passport = require("passport");
-const passportLocal = require("passport-local").Strategy;
+require("./passportConfig");
+require("dotenv").config();
+
 //middleware
-app.use(
-  cors({
-    origin: "http://localhost:3000", // <-- location of the react app were connecting to
-    credentials: true,
-  })
-);
+app.use(cors({origin:"http://localhost:3000",credentials:true}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-//app.use(express.json());
+app.use(express.json());
 app.use(
   session({
-    secret: "secretcode",
+    secret: process.env.SESSION_SECRET,
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false,
   })
 );
-app.use(cookieParser("secretcode"));
 app.use(passport.initialize());
 app.use(passport.session());
-require("./passportConfig")(passport);
 
-//Routes
 
+
+//routes
+
+//register a user
 app.post("/register", async (req, res) => {
   let { username, email, password, password2 } = req.body;
 
   let errors = [];
-
-  console.log({
-    username,
-    email,
-    password,
-    password2,
-  });
 
   if (!username || !email || !password || !password2) {
     errors.push({ message: "Please enter all fields" });
@@ -61,7 +52,6 @@ app.post("/register", async (req, res) => {
     res.send(errors);
   } else {
     hashedPassword = await bcrypt.hash(password, 10);
-    console.log(hashedPassword);
     // Validation passed
     pool.query(
       `SELECT * FROM users
@@ -71,7 +61,7 @@ app.post("/register", async (req, res) => {
         if (err) {
           console.log(err);
         }
-        console.log(results.rows);
+        
 
         if (results.rows.length > 0) {
           return res.send([
@@ -100,7 +90,11 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.post("/login", (req, res, next) => {
+//local login
+app.post("/login/:loginType", (req, res, next) => {
+  const {loginType} = req.params;
+  if(loginType==="local")
+  {
   passport.authenticate("local", (err, user, info) => {
     if (err) throw err;
     if (!user) res.send(info);
@@ -111,17 +105,32 @@ app.post("/login", (req, res, next) => {
       });
     }
   })(req, res, next);
+}
 });
 
+//social login(google)
+app.get('/login/:loginType', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+// callback for google login
+app.get("/google/callback", passport.authenticate('google'),
+(req, res) => {
+  res.redirect('http://localhost:3000/login');
+});
+
+
+//logout route
 app.get("/logout", (req, res) => {
   req.logout();
   res.send({ message: "You have logged out successfully" });
 });
 
+//to get current logged in user
 app.get("/user", (req, res) => {
   res.send(req.user);
 });
 
+
+//to list all the products in the store
 app.get("/products", async (req, res) => {
   try {
     const allProducts = await pool.query("SELECT * FROM product");
@@ -131,6 +140,7 @@ app.get("/products", async (req, res) => {
   }
 });
 
+//to list cart of a user given his user_id
 app.get("/cartItems/:user_id", async (req, res) => {
   try {
     const { user_id } = req.params;
@@ -145,6 +155,7 @@ app.get("/cartItems/:user_id", async (req, res) => {
   }
 });
 
+//to update cart of a user given his user_id
 app.post("/cartItems/:user_id", (req, res) => {
   try {
     cartItems = req.body;
@@ -180,6 +191,8 @@ app.post("/cartItems/:user_id", (req, res) => {
   }
 });
 
+
+//initializing app
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

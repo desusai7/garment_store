@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
 import "./Register.css";
-import { useHistory, Link ,Redirect} from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import { useUser,useUserUpdate } from "E:/Weekend Projects/garment-store/client/src/Context/UserProvider";
+import { useHistory, Link ,Redirect} from "react-router-dom";
+import { useUser,useUserUpdate } from "../UserProvider";
 function Register() {
+  
   const history = useHistory();
   const [errors, setErrors] = useState(null);
   const [email, setEmail] = useState("");
@@ -52,6 +53,7 @@ function Register() {
   return (
     <div className="register">
       {user?.username && <Redirect to="/home"></Redirect>}
+      
       <div className="register__errors">
         <ul>
           {errors?.map((error, index) => (
@@ -59,14 +61,17 @@ function Register() {
           ))}
         </ul>
       </div>
+
       <div className="register__body">
         <form onSubmit={signup} method="post">
+          
           <div className="register__heading">
             <center>
               {" "}
               <h1>Register Here! </h1>
             </center>
           </div>
+          
           <span>
             <b>Enter Your Username Here</b>
           </span>
@@ -115,6 +120,7 @@ function Register() {
           Already Registered ? <Link to="/login"> Login Here</Link>
         </form>
       </div>
+      
     </div>
   );
 }

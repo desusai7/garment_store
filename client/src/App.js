@@ -1,18 +1,21 @@
-import React,{useEffect} from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
+import React,{useEffect,useState} from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Header from "./Components/Header/Header";
 import Home from "./Components/Home/Home";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
 import ReactGA from 'react-ga';
-import {CartProvider}  from "./Context/CartProvider";
-import {UserProvider}  from "./Context/UserProvider";
+import {CartProvider}  from "./Components/CartProvider";
+import {UserProvider}  from "./Components/UserProvider";
+
 function App() {
+  
   useEffect(() => {
-    ReactGA.initialize('UA-174246969-1');
+    ReactGA.initialize(process.env.REACT_APP_TRACKING_ID);
     ReactGA.pageview(window.location.pathname);
-  }, [])
+  }, []);
+
   return (
     <div className="app">
       <UserProvider>

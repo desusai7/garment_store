@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
 import "./Login.css";
+import React, { useState, useEffect } from "react";
 import { Link, useHistory, Redirect } from "react-router-dom";
 import Axios from "axios";
-import { useUser,useUserUpdate } from "E:/Weekend Projects/garment-store/client/src/Context/UserProvider";
+import {useUser,useUserUpdate,} from "../UserProvider";
 function Login() {
   const history = useHistory();
   const [error, setError] = useState(null);
@@ -12,20 +12,19 @@ function Login() {
   const updateUser = useUserUpdate();
   const user = useUser();
 
-  const login = async (e) => {
-    e.preventDefault();
+  const login = async (loginType,event) => {
+    event.preventDefault()
     Axios({
       method: "POST",
       data: {
         email: email,
         password: password,
       },
-      url: "http://localhost:5000/login",
+      url: `http://localhost:5000/login/${loginType}`,
       withCredentials: true,
     }).then((res) => {
       if (res.data.user_id != null && res.data.email != null) {
         updateUser(res.data);
-        alert("Login Successful ! Taking you to Home Page");
         history.push("/home");
       } else {
         setError(res.data);
@@ -40,7 +39,6 @@ function Login() {
       withCredentials: true,
     }).then((res) => {
       updateUser(res.data);
-      console.log(user);
     });
   };
 
@@ -48,7 +46,6 @@ function Login() {
     getUser();
   }, []);
 
-  
   return (
     <div className="login">
       {user?.username && <Redirect to="/home"></Redirect>}
@@ -56,13 +53,16 @@ function Login() {
       <div className="login__errors">
         <ul>{error && <li>{error.message}</li>}</ul>
       </div>
+
       <div className="login__body">
-        <form onSubmit={login} method="post">
+        <form onSubmit={(e)=>login("local",e)} >
+          
           <div className="login__heading">
             <center>
               <h1>Login Here! </h1>
             </center>
           </div>
+
           <span>
             <b>Enter Your Mail Address Here</b>
           </span>
@@ -89,8 +89,21 @@ function Login() {
             Login
           </button>
           Not Registered ? <Link to="/register"> Register Here</Link>
+
+          <div className="login__text">
+            <center>
+              <h6> (OR) </h6>
+            </center>
+          </div>
+
+          <a href="http://localhost:5000/login/google">
+          <button className="button" type="button">
+            Sign in with Google
+          </button>
+          </a>
         </form>
       </div>
+      
     </div>
   );
 }

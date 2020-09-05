@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "./Cart.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -13,7 +13,8 @@ import Axios from "axios";
 import ReactGA from "react-ga";
 import Modal from 'react-bootstrap/Modal';
 import ButtonBS from 'react-bootstrap/Button';
-import {useUser} from "E:/Weekend Projects/garment-store/client/src/Context/UserProvider";
+import {useUser} from "../UserProvider";
+import {useCart , useCartUpdate} from "../CartProvider";
 const useStyles = makeStyles({
   table: {
     minWidth: 500,
@@ -22,20 +23,47 @@ const useStyles = makeStyles({
 
 
 
-function Cart({ cart }) {
+function Cart() {
   const classes = useStyles();
-
   const user = useUser();
+  const cart = useCart();
+  const updateCart = useCartUpdate();
+  
   const [show, setShow] = useState(false);
   const [modalContent,setModalContent] = useState('');
-  const handleClose = () => setShow(false);
   
-
   const invoiceTotal = cart.reduce(function (acc, curr) {
     return acc + curr.quantity * curr.price;
   }, 0);
 
-  const updateCart = async () => {
+  const handleClose = () => 
+  {
+    setShow(false);
+    getCart();
+  }
+
+  const getCart = async () => {
+    if(user!==null && user!=="")
+    {
+    Axios({
+      method: "GET",
+      url: `http://localhost:5000/cartItems/${user.user_id}`,
+      withCredentials: true,
+    }).then((res) => {
+      updateCart(res.data);
+    });
+  }
+  else
+  {
+   updateCart([]);
+  }
+  };
+  
+  useEffect(() => {
+    getCart();
+  }, [user]);
+
+  const submitCart = async () => {
     if(user==="" || user===undefined || user===null)
     {
         setModalContent("Please login First in Order to Submit your Cart");
@@ -45,12 +73,13 @@ function Cart({ cart }) {
     {
       Axios({
         method: "POST",
-        url: `http://localhost:5000/cartItems/${user.userid}`,
+        url: `http://localhost:5000/cartItems/${user.user_id}`,
         data: cart,
         withCredentials: true,
       }).then((res) => {
         if(res.data.Status==="Submitted")
         {
+        ReactGA.set({ userId: user.user_id });
         ReactGA.event({
           category: "Garment",
           action: "Saving Cart",
@@ -67,12 +96,12 @@ function Cart({ cart }) {
       }
       });
     }
-    
   };
 
 
   return (
     <div className="cart">
+      
       <div className="cart__body">
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="spanning table">
@@ -119,7 +148,7 @@ function Cart({ cart }) {
                       style={{ backgroundColor: "#4caf50", color: "white" }}
                       variant="contained"
                       size="medium"
-                      onClick={updateCart}
+                      onClick={submitCart}
                       color="primary"
                     >
                       Submit
@@ -132,6 +161,7 @@ function Cart({ cart }) {
         </Table>
       </TableContainer>
       </div>
+
       <div className="cart__modal">
       <Modal show={show} onHide={handleClose} animation={true} aria-labelledby="contained-modal-title-vcenter" centered>
         <Modal.Header closeButton>
@@ -145,6 +175,7 @@ function Cart({ cart }) {
         </Modal.Footer>
       </Modal>
       </div>
+
     </div>
   );
 }

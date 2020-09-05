@@ -1,20 +1,27 @@
-import React from "react";
 import "./Product.css";
+import React,{useState} from "react";
 import { Button } from "@material-ui/core";
-import {useCartAddItem , useCartRemoveItem} from "E:/Weekend Projects/garment-store/client/src/Context/CartProvider";
-function Products({ product,selectedSize, selectedColor, setSelectedSize, setSelectedColor}) {
-
+import {useCartAddItem , useCartRemoveItem} from "../CartProvider";
+function Products({ product}) {
+  
+  const [selectedSize, setSelectedSize] = useState("S");
+  const [selectedColor, setSelectedColor] = useState("red");
+  
+  
   const addToCart = useCartAddItem();
   const removeFromCart = useCartRemoveItem();
   
   return (
     <div className="product">
       <div className="product__info">
+        
         <div className="product_details">
           <h1>{product.name}</h1>
           <h1> Price : {"$" + product.price}</h1>
         </div>
+
         <div className="product__variants">
+
           <div className="product__sizes">
             <p>Choose a trim color:</p>
             <div className="product__radio">
@@ -52,6 +59,7 @@ function Products({ product,selectedSize, selectedColor, setSelectedSize, setSel
               Add to Cart
             </Button>
           </div>
+
           <div className="product__colors">
             <p>Choose a size:</p>
             <div className="product__radio">
@@ -89,14 +97,19 @@ function Products({ product,selectedSize, selectedColor, setSelectedSize, setSel
               Remove from Cart
             </Button>
           </div>
+
         </div>
+
       </div>
+
       <div className="product__selected">
         <h3 style={{ color: selectedColor }}>{selectedSize}</h3>
       </div>
+
       <div className="product__imageContainer">
         <img className="product__image" src={product.imageurl} alt="" />
       </div>
+
     </div>
   );
 }
