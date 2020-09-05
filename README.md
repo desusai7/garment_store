@@ -1,11 +1,11 @@
 # Garment_store
 
-### Garment Store is built using :
+### Garment Store is built On PERN Stack :
 
-React.js - FrontEnd
-Express - BackEnd Framework
-Node.js - JS Runtime Environment
-Postgresql - Database
+React.js - FrontEnd,
+Express - BackEnd Framework,
+Node.js - JS Runtime Environment,
+Postgresql - Database.
 
 ### Features of Garment Store include : 
 
@@ -22,7 +22,7 @@ In order to run the application you need to install (or) have the following requ
 
 ### Node
 
-[Node](http://nodejs.org/) is really easy to install & now include [NPM](https://npmjs.org/).
+[Node](http://nodejs.org/) is really easy to install & now includes [NPM](https://npmjs.org/).
 You should be able to run the following command after the installation procedure
 below.
 
