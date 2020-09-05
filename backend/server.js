@@ -165,8 +165,8 @@ app.post("/cartItems/:user_id", (req, res) => {
         {
         if (cartItem.quantity > 0) {
             const  updatedItem = await pool.query(
-            "UPDATE cart SET quantity = $1 , colour=$2,size=$3 WHERE cart_id = $4 ;",
-            [cartItem.quantity, cartItem.colour, cartItem.size, cartItem.cart_id]
+            "UPDATE cart SET quantity = $1 WHERE cart_id = $2 ;",
+            [cartItem.quantity, cartItem.cart_id]
           );
         } else {
           const updatedItem = await pool.query(
@@ -180,7 +180,7 @@ app.post("/cartItems/:user_id", (req, res) => {
         if (cartItem.quantity > 0) {
         const updatedItem = await pool.query(
           "INSERT INTO cart (product_id,user_id,quantity,colour,size) VALUES ($1,$2,$3,$4,$5);",
-          [cartItem.product_id, user_id, cartItem.quantity, cartItem.color, cartItem.size]
+          [cartItem.product_id, user_id, cartItem.quantity, cartItem.colour, cartItem.size]
         );
         }
       }

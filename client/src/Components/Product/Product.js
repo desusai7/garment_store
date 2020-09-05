@@ -5,7 +5,7 @@ import {useCartAddItem , useCartRemoveItem} from "../CartProvider";
 function Products({ product}) {
   
   const [selectedSize, setSelectedSize] = useState("S");
-  const [selectedColor, setSelectedColor] = useState("red");
+  const [selectedColor, setSelectedColor] = useState("Red");
   
   
   const addToCart = useCartAddItem();
@@ -27,32 +27,32 @@ function Products({ product}) {
             <div className="product__radio">
               <input
                 type="radio"
-                value="red"
+                value="Red"
                 name={"color" + product.id}
-                checked={selectedColor === "red"}
+                checked={selectedColor === "Red"}
                 onChange={(e) => setSelectedColor(e.target.value)}
               />{" "}
               Red <br />
               <input
                 type="radio"
-                value="green"
+                value="Green"
                 name={"color" + product.id}
-                checked={selectedColor === "green"}
+                checked={selectedColor === "Green"}
                 onChange={(e) => setSelectedColor(e.target.value)}
               />{" "}
               Green <br />
               <input
                 type="radio"
-                value="blue"
+                value="Blue"
                 name={"color" + product.id}
-                checked={selectedColor === "blue"}
+                checked={selectedColor === "Blue"}
                 onChange={(e) => setSelectedColor(e.target.value)}
               />{" "}
               Blue <br />
             </div>
             <Button
               style={{ backgroundColor: "#4caf50", color: "white" }}
-              onClick={() => addToCart(product)}
+              onClick={() => addToCart(product,selectedColor,selectedSize)}
               variant="contained"
               size="medium"
             >
@@ -90,7 +90,7 @@ function Products({ product}) {
             </div>
             <Button
               style={{ backgroundColor: "#f44336", color: "white" }}
-              onClick={() => removeFromCart(product)}
+              onClick={() => removeFromCart(product,selectedColor,selectedSize)}
               variant="contained"
               size="medium"
             >

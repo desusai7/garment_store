@@ -63,6 +63,21 @@ function Cart() {
     getCart();
   }, [user]);
 
+  const isCartEmpty = async() =>
+  {
+    console.log(invoiceTotal);
+    if(invoiceTotal == 0 && cart.length>0 && user !== "" && user!== undefined && user !== null)
+    {
+      console.log("submitting from if");
+      submitCart();
+    }
+  }
+
+  useEffect(()=>
+  {
+    isCartEmpty();
+  },[invoiceTotal]);
+
   const submitCart = async () => {
     if(user==="" || user===undefined || user===null)
     {
@@ -105,7 +120,7 @@ function Cart() {
       <div className="cart__body">
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="spanning table">
-          {cart.length === 0 ? (
+          {invoiceTotal === 0 ? (
             <TableBody>
               <TableRow className="error">
                 <TableCell align="center" colSpan={3}>
@@ -117,33 +132,37 @@ function Cart() {
             <>
               <TableHead>
                 <TableRow className="success">
-                  <TableCell align="center" colSpan={3}>
+                  <TableCell align="center" colSpan={5}>
                     Your Cart
                   </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Item</TableCell>
+                  <TableCell align="right">Size</TableCell>
+                  <TableCell align="right">Color</TableCell>
                   <TableCell align="right">Qty.</TableCell>
                   <TableCell align="right">Price</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {cart.map(
-                  (item) =>
+                  (item,index) =>
                     item.quantity > 0 && (
-                      <TableRow key={item.product_id}>
+                      <TableRow key={index}>
                         <TableCell>{item.name}</TableCell>
+                        <TableCell align="right">{item.size}</TableCell>
+                        <TableCell align="right">{item.colour}</TableCell>
                         <TableCell align="right">{item.quantity}</TableCell>
                         <TableCell align="right">{"$" + item.price}</TableCell>
                       </TableRow>
                     )
                 )}
                 <TableRow className="success">
-                  <TableCell colSpan={2}>Total</TableCell>
+                  <TableCell colSpan={4}>Total</TableCell>
                   <TableCell align="right">{"$" + invoiceTotal}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell colSpan={3}>
+                  <TableCell colSpan={5}>
                     <Button
                       style={{ backgroundColor: "#4caf50", color: "white" }}
                       variant="contained"

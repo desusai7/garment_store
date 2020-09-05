@@ -8,7 +8,6 @@ import {useUser , useUserUpdate} from "../UserProvider";
 function Home() {
   const [products, setProducts] = useState([]);
   
-  const user = useUser();
   const updateUser = useUserUpdate();
  
 
@@ -32,7 +31,6 @@ function Home() {
       url: "http://localhost:5000/user",
       withCredentials: true,
     }).then((res) => {
-      console.log(res.data);
       updateUser(res.data);
     });
   };

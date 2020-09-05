@@ -2,6 +2,7 @@ import "./Login.css";
 import React, { useState, useEffect } from "react";
 import { Link, useHistory, Redirect } from "react-router-dom";
 import Axios from "axios";
+import Alert from 'react-bootstrap/Alert'
 import {useUser,useUserUpdate,} from "../UserProvider";
 function Login() {
   const history = useHistory();
@@ -51,8 +52,15 @@ function Login() {
       {user?.username && <Redirect to="/home"></Redirect>}
 
       <div className="login__errors">
-        <ul>{error && <li>{error.message}</li>}</ul>
-      </div>
+      {error && 
+        <Alert variant="danger">
+        <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+        <ul>
+          <li>{error.message}</li>
+        </ul>
+      </Alert>
+        } 
+          </div>
 
       <div className="login__body">
         <form onSubmit={(e)=>login("local",e)} >

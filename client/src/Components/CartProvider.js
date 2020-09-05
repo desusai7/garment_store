@@ -1,4 +1,6 @@
 import React, { useContext, useState } from "react";
+import Modal from 'react-bootstrap/Modal';
+import ButtonBS from 'react-bootstrap/Button';
 
 const CartContext = React.createContext();
 const CartUpdateContext = React.createContext();
@@ -25,14 +27,19 @@ export function useCartRemoveItem()
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
-
+  const [show, setShow] = useState(false);
+  const [modalContent,setModalContent] = useState('');
   const updateCart = (cart) => {
     setCart(cart);
   };
+  const handleClose = () => 
+  {
+    setShow(false);
+  }
 
-  function addToCart (itemToAdd, selectedColor, selectedSize)  {
+  function addToCart (itemToAdd, selectedColour, selectedSize)  {
     const itemIndex = cart.findIndex(
-      (item) => item.product_id === itemToAdd.id
+      (item) => item.product_id === itemToAdd.id && item.colour===selectedColour && item.size===selectedSize
     );
     if (itemIndex === -1) {
       const newItem = {};
@@ -40,35 +47,42 @@ export function CartProvider({ children }) {
       newItem.name = itemToAdd.name;
       newItem.price = itemToAdd.price;
       newItem.quantity = 1;
-      newItem.color = selectedColor;
+      newItem.colour = selectedColour;
       newItem.size = selectedSize;
       setCart([...cart, newItem]);
-      console.log(cart);
     } else {
       const updatedCart = [...cart];
       const item = updatedCart[itemIndex];
       item.quantity = item.quantity + 1;
       updatedCart[itemIndex] = item;
       setCart([...updatedCart]);
-      console.log(cart);
     }
   };
 
   
-  function removeFromCart (itemToRemove)  {
+  function removeFromCart (itemToRemove,selectedColour,selectedSize)  {
     const itemIndex = cart.findIndex(
-      (item) => item.product_id === itemToRemove.id
+      (item) => item.product_id === itemToRemove.id && item.colour===selectedColour && item.size===selectedSize
     );
+    if(itemIndex!==-1)
+    {
     if (cart[itemIndex].quantity > 0) {
       const updatedCart = [...cart];
       const item = updatedCart[itemIndex];
       item.quantity = item.quantity - 1;
+      
       updatedCart[itemIndex] = item;
       setCart([...updatedCart]);
     }
+  }
+  else{
+    setModalContent("There is no "+itemToRemove.name+" in your Cart with Size: "+selectedSize+" and Colour: "+selectedColour);
+    setShow(true);
+  }
   };
 
   return (
+    <div className="cartProvider">
     <CartContext.Provider value={cart}>
       <CartUpdateContext.Provider value={updateCart}>
         <CartAddItem.Provider value={addToCart}>
@@ -78,6 +92,20 @@ export function CartProvider({ children }) {
         </CartAddItem.Provider>
       </CartUpdateContext.Provider>
     </CartContext.Provider>
+    <div className="cart__modal">
+      <Modal show={show} onHide={handleClose} animation={true} aria-labelledby="contained-modal-title-vcenter" centered>
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">Invalid Action</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{modalContent}</Modal.Body>
+        <Modal.Footer>
+          <ButtonBS variant="danger" onClick={handleClose}>
+            Close
+          </ButtonBS>
+        </Modal.Footer>
+      </Modal>
+      </div>
+    </div>
   );
 }
 

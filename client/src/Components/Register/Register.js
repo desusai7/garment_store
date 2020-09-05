@@ -1,6 +1,7 @@
 import "./Register.css";
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
+import Alert from 'react-bootstrap/Alert'
 import { useHistory, Link ,Redirect} from "react-router-dom";
 import { useUser,useUserUpdate } from "../UserProvider";
 function Register() {
@@ -55,11 +56,17 @@ function Register() {
       {user?.username && <Redirect to="/home"></Redirect>}
       
       <div className="register__errors">
+      {errors && 
+        <Alert variant="danger">
+        <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
         <ul>
           {errors?.map((error, index) => (
             <li key={index}>{error.message}</li>
           ))}
         </ul>
+        </Alert>
+        } 
+        
       </div>
 
       <div className="register__body">
